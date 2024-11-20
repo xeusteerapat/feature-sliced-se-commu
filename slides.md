@@ -22,10 +22,11 @@ Building Scalable Applications
 
 - Feature Slice Architecture overview
 - Core principles and benefits
+- FSA vs Traditional Approaches
 - React implementation
 - Real-world examples
-- Best practices
-- Migration strategies
+- Best practices **
+- Migration strategies **
 
 </v-click>
 
@@ -37,89 +38,20 @@ Building Scalable Applications
     + Q&A
   </div>
 </div>
-
 ---
-layout: center
----
-
-# Why Do We Need FSA?
-
+layout: default
 ---
 
-# Common Frontend Problems
+# What is Feature Sliced Architecture?
 
-<div class="grid grid-cols-2 gap-4">
-
-<div>
-<v-click>
-
-## Challenges
-- Codebase becomes a "big ball of mud"
-- Feature boundaries are blurred
-- Cross-team collaboration is difficult
-- Code reuse leads to tight coupling
-- Business logic scattered across app
-- Tech debt accumulates rapidly
-
-</v-click>
-</div>
-
-<div>
-<v-click>
-
-## Real-world Scenarios
-- Multiple teams working on same codebase
-- Features need to be toggled per client
-- Complex state management
-- Shared components become bottlenecks
-- Testing becomes complicated
-- Onboarding new developers is challenging
-
-</v-click>
-</div>
-
-</div>
+A methodology for organizing frontend code that:
+- Focuses on business domains (features)
+- Enforces strict boundaries
+- Promotes modular design
+- Makes codebases more maintainable
 
 ---
-
-# How FSA Solves These Problems
-
-<v-click>
-
-### Clear Boundaries
-
-```ts {all|1-2|4-5}
-// ❌ Before: Importing from anywhere
-import { Button } from '../../../components/Button'
-
-// ✅ After: Clear public API
-import { Button } from '@/shared/ui'
-```
-
-</v-click>
-
-<v-click>
-
-### Business Logic Isolation
-
-```ts {all|1-6|8-13}
-// ❌ Before: Mixed concerns
-const ProductList = () => {
-  const [products, setProducts] = useState([])
-  const [cart, setCart] = useState([])
-  // Mixed product and cart logic
-}
-
-// ✅ After: Separated features
-const ProductList = () => {
-  const { products } = useProducts()
-  const { addToCart } = useCart()
-  // Only product list logic
-}
-```
-
-</v-click>
-
+layout: default
 ---
 
 # Understanding FSA Structure
@@ -189,23 +121,36 @@ graph TB
 <div>
 <v-click>
 
-```mermaid {scale: 0.75}
+```mermaid
 flowchart TB
-    app --> pages
-    app --> processes
-    pages --> widgets
-    pages --> features
-    widgets --> features
-    features --> entities
-    entities --> shared
-    
-    style app fill:#ff9999
-    style pages fill:#ffcc99
-    style processes fill:#ffcc99
-    style widgets fill:#99ff99
-    style features fill:#99ccff
-    style entities fill:#cc99ff
-    style shared fill:#ffff99
+    Shared[Shared] --> App[app]
+    Shared --> Features[Features]
+    App --> Features
+
+    subgraph Shared
+        direction TB
+        lib(lib)
+        api(api)
+        database(database)
+        components(components)
+        utils(utils)
+    end
+
+    subgraph App
+        direction TB
+        products(products)
+        salesChart(salesChart)
+        login(login)
+        userSettings(userSettings)
+    end
+
+    subgraph Features
+        direction TB
+        productsF(products)
+        users(users)
+        sales(sales)
+        etc(etc..)
+    end
 ```
 </v-click>
 </div>
@@ -223,28 +168,27 @@ flowchart TB
 
 
 ---
+layout: center
+---
 
-# Project Structure Comparison
+# Why Do We Need FSA?
+
+---
+
+# Common Frontend Problems
 
 <div class="grid grid-cols-2 gap-4">
 
 <div>
 <v-click>
 
-## Traditional
-
-```
-src/
-  components/
-    Button.tsx
-    Modal.tsx
-  containers/
-    ProductList.tsx
-  reducers/
-    products.ts
-  services/
-    api.ts
-```
+## Challenges
+- Codebase becomes a "big ball of mud"
+- Feature boundaries are blurred
+- Cross-team collaboration is difficult
+- Code reuse leads to tight coupling
+- Business logic scattered across app
+- Tech debt accumulates rapidly
 
 </v-click>
 </div>
@@ -252,28 +196,225 @@ src/
 <div>
 <v-click>
 
-## FSA
-
-```
-src/
-  features/
-    product-list/
-      ui/
-      model/
-      api/
-    cart/
-      ui/
-      model/
-  entities/
-    product/
-  shared/
-    ui/
-```
+## Real-world Scenarios
+- Multiple teams working on same codebase
+- Features need to be toggled per client
+- Complex state management
+- Shared components become bottlenecks
+- Testing becomes complicated
+- Onboarding new developers is challenging
 
 </v-click>
 </div>
 
 </div>
+---
+layout: default
+---
+
+# Traditional vs FSA: Project Structure
+<!-- <div class="w-full overflow-x-auto max-h-100"> -->
+<div class="grid grid-cols-2 gap-8">
+<div class="w-full overflow-x-auto max-h-100">
+
+## Traditional Approach
+```text
+src/
+  components/                 # Mixed UI components
+    Button/
+      Button.tsx
+      Button.css
+    Modal/
+    Form/
+    ProductCard/
+    ShoppingCart/
+  
+  pages/                     # Pages with mixed logic
+    Products.tsx
+    Cart.tsx
+    Auth.tsx
+  
+  store/                     # Global state
+    actions/
+      products.ts
+      cart.ts
+      auth.ts
+    reducers/
+      products.ts
+      cart.ts
+      auth.ts
+  
+  services/                  # API calls mixed
+    api.ts
+    auth.ts
+    products.ts
+  
+  utils/                     # Mixed utilities
+    helpers.ts
+    constants.ts
+    types.ts
+
+  hooks/                     # Mixed hooks
+    useProducts.ts
+    useCart.ts
+    useAuth.ts
+
+  contexts/                  # Mixed contexts
+    ProductContext.tsx
+    CartContext.tsx
+    AuthContext.tsx
+```
+
+</div>
+<div class="w-full overflow-x-auto max-h-100">
+
+## Feature Sliced Approach
+```text
+src/
+  app/                      # App initialization
+    providers/
+      with-router.tsx
+      with-store.tsx
+    styles/
+    index.tsx
+  
+  processes/                # Complex flows
+    auth/
+      ui/
+        login-flow.tsx
+      model/
+        auth-flow.ts
+      lib/
+        types.ts
+  
+  pages/                    # Page components
+    products/
+      ui/
+        products-page.tsx
+      layouts/
+        main-layout.tsx
+    cart/
+      ui/
+        cart-page.tsx
+  
+  features/                 # User features
+    product-list/
+      ui/
+        product-list.tsx
+        product-card.tsx
+      model/
+        products.slice.ts
+      api/
+        products.api.ts
+    product-search/
+      ui/
+        search-bar.tsx
+      model/
+        search.store.ts
+    shopping-cart/
+      ui/
+        cart-widget.tsx
+      model/
+        cart.context.tsx
+      lib/
+        hooks.ts
+  
+  entities/                 # Business objects
+    product/
+      ui/
+        product-image.tsx
+        product-price.tsx
+      model/
+        types.ts
+      lib/
+        helpers.ts
+    user/
+      ui/
+        user-avatar.tsx
+      model/
+        types.ts
+  
+  shared/                   # Shared code
+    ui/
+      button/
+      modal/
+    api/
+      base.ts
+    lib/
+      types.ts
+```
+
+</div>
+</div>
+
+---
+layout: two-cols
+---
+
+# Key Differences
+
+## Traditional
+- Grouped by technical purpose
+- Mixed business domains
+- Unclear boundaries
+- Deep import paths
+- Hard to scale
+- Complex dependencies
+- Hard to maintain
+- Difficult team collaboration
+
+::right::
+
+## Feature Sliced
+- Grouped by business domain
+- Clear feature boundaries  
+- Explicit dependencies
+- Shallow imports
+- Easy to scale
+- Team-friendly structure
+- Independent deployment
+- Better code organization
+- Clear responsibility
+- Easier testing
+
+---
+layout: default
+---
+
+# Example: How Imports Work
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+## Traditional Approach
+```ts
+// pages/Products.tsx
+import { ProductCard } from '../../components/ProductCard'
+import { useProducts } from '../../hooks/useProducts'
+import { addToCart } from '../../store/actions/cart'
+import { Product } from '../../types/product'
+import { formatPrice } from '../../utils/formatPrice'
+```
+
+</div>
+<div>
+
+## Feature Sliced Approach
+```ts
+// pages/products/ui/products-page.tsx
+import { ProductList } from '@/features/product-list'
+import { SearchBar } from '@/features/product-search'
+import { CartWidget } from '@/features/shopping-cart'
+import { PageLayout } from '@/shared/ui/layouts'
+
+// features/product-list/ui/product-list.tsx
+import { ProductCard } from '@/entities/product'
+import { Button } from '@/shared/ui'
+```
+
+</div>
+</div>
+
 
 ---
 
