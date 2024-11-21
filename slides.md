@@ -1,9 +1,9 @@
 ---
 theme: mint
-title: Feature Slice Architecture with React
-titleTemplate: '%s - Feature Slice Architecture'
+title: Feature Slice Design with React
+titleTemplate: '%s - Feature Slice Design'
 info: |
-  Presentation about Feature Slice Architecture (FSA)
+  Presentation about Feature Slice Design (FSA)
   with React implementation details.
 presenter: true
 lineNumbers: true
@@ -11,7 +11,7 @@ drawings:
   persist: false
 ---
 
-# Feature Slice Architecture with React
+# Feature Slice Design with React
 Building Scalable Applications
 
 ---
@@ -20,13 +20,11 @@ Building Scalable Applications
 
 <v-click>
 
-- Feature Slice Architecture overview
+- Feature Slice Design overview
 - Core principles and benefits
 - FSA vs Traditional Approaches
 - React implementation
 - Real-world examples
-- Best practices **
-- Migration strategies **
 
 </v-click>
 
@@ -42,13 +40,9 @@ Building Scalable Applications
 layout: default
 ---
 
-# What is Feature Sliced Architecture?
+# What is Feature Sliced Design?
 
-A methodology for organizing frontend code that:
-- Focuses on business domains (features)
-- Enforces strict boundaries
-- Promotes modular design
-- Makes codebases more maintainable
+An architectural methodology for scaffolding front-end applications. Simply put, it's a compilation of rules and conventions on organizing code. The main purpose of this methodology is to make the project more understandable and stable in the face of ever-changing business requirements.
 
 ---
 layout: default
@@ -415,93 +409,13 @@ import { Button } from '@/shared/ui'
 </div>
 </div>
 
-
----
-
-# Example: E-commerce Feature
-
-<div class="w-full overflow-x-auto max-h-100">
-<v-click>
-
-```ts {all|1-7|9-16|18-28} 
-// entities/product/model/types.ts
-export interface Product {
-  id: string
-  title: string
-  price: number
-  image: string
-}
-
-// features/product-list/model/products.slice.ts
-import { createSlice } from '@reduxjs/toolkit'
-import { Product } from '@/entities/product'
-
-interface ProductsState {
-  items: Product[]
-  loading: boolean
-}
-
-// features/product-list/ui/product-list.tsx
-export const ProductList = () => {
-  const { items, loading } = useProducts()
-  
-  return (
-    <Grid>
-      {items.map(product => <ProductCard product={product} />)}
-    </Grid>
-  )
-}
-```
-
-</v-click>
-</div>
-
----
-
-# Implementation Steps
-<div class="w-full overflow-x-auto max-h-100">
-<v-click>
-
-1. Project Structure Setup
-```bash
-mkdir -p src/{app,pages,features,entities,shared}
-```
-
-2. Define Public API
-```ts
-// features/product-list/index.ts
-export { ProductList } from './ui/product-list'
-export type { Product } from './model/types'
-```
-
-3. Configure Import Rules
-```json
-{
-  "rules": {
-    "boundaries/element-types": [
-      "error",
-      {
-        "default": "disallow",
-        "rules": [
-          { "from": "features", "allow": ["entities", "shared"] },
-          { "from": "entities", "allow": ["shared"] }
-        ]
-      }
-    ]
-  }
-}
-```
-
-</v-click>
-</div>
-
 ---
 layout: center
 ---
 
 # Q&A
 
-Ask me anything about Feature Slice Architecture!
+Ask me anything about Feature Slice Design!
 
 ---
 layout: end
