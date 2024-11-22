@@ -426,5 +426,7 @@ layout: end
 Resources:
 - 📘 [Feature-Sliced Design documentation](https://feature-sliced.design)
 - 💻 [Example repository](https://github.com/feature-sliced/examples)
-- 🌟 [Community](https://t.me/feature_sliced)
+- 🎥 [Designing for change with Vertical Slice Architecture - Chris Sainty - NDC London 2024](https://www.youtube.com/watch?v=_1rjo2l17kI)
+- 🎥 [Preventing architectural debt with Feature-Sliced Design | Aleksandr Guzenko | Conf42 JS 2024](https://www.youtube.com/watch?v=RZ1tmO7Au5U)
+- 🎥 [This Folder Structure Makes Me 100% More Productive](https://www.youtube.com/watch?v=xyxrB2Aa7KE)
 ```
