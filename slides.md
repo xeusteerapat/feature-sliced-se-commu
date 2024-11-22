@@ -119,7 +119,7 @@ graph TB
 flowchart TB
     Shared[Shared] --> App[app]
     Shared --> Features[Features]
-    App --> Features
+    Features --> App
 
     subgraph Shared
         direction TB
@@ -152,8 +152,8 @@ flowchart TB
 <div>
 <v-click>
 
-- Upper layers can import from lower layers
-- Lower layers CANNOT import from upper layers
+- App can import from both Shared and Features
+- Features CANNOT import App
 - Shared layer has no external dependencies
 
 </v-click>
