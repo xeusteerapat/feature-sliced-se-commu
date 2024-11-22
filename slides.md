@@ -3,7 +3,7 @@ theme: mint
 title: Feature Slice Design with React
 titleTemplate: '%s - Feature Slice Design'
 info: |
-  Presentation about Feature Slice Design (FSA)
+  Presentation about Feature Slice Design (FSD)
   with React implementation details.
 presenter: true
 lineNumbers: true
@@ -22,7 +22,7 @@ Building Scalable Applications
 
 - Feature Slice Design overview
 - Core principles and benefits
-- FSA vs Traditional Approaches
+- FSD vs Traditional Approaches
 - React implementation
 
 </v-click>
@@ -47,7 +47,7 @@ An architectural methodology for scaffolding front-end applications. Simply put,
 layout: default
 ---
 
-# Understanding FSA Structure
+# Understanding FSD Structure
 
 <div class="grid grid-cols-2 gap-4">
 
@@ -164,7 +164,7 @@ flowchart TB
 layout: center
 ---
 
-# Why Do We Need FSA?
+# Why Do We Need Feature Sliced Design?
 
 ---
 
@@ -205,7 +205,7 @@ layout: center
 layout: default
 ---
 
-# Traditional vs FSA: Project Structure
+# Traditional vs FSD: Project Structure
 <!-- <div class="w-full overflow-x-auto max-h-100"> -->
 <div class="grid grid-cols-2 gap-8">
 <div class="w-full overflow-x-auto max-h-100">
