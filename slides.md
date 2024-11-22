@@ -24,7 +24,6 @@ Building Scalable Applications
 - Core principles and benefits
 - FSA vs Traditional Approaches
 - React implementation
-- Real-world examples
 
 </v-click>
 
